@@ -1,7 +1,6 @@
 const channels = [
     { name: "BEIN SPORTS 1 MAX HEVC", url: "http://96820894386333777.ofdp1112.xyz:80/live/FKRFM93YEF/CdvnqxyHNH/333777.ts" },
-    { name: "BEIN SPORTS 1 MAX HD", url: "http://96820894386333779.ofdp1112.xyz:80/live/FKRFM93YEF/CdvnqxyHNH/333779.ts" }
-    { name: "BEIN SPORTS 2 premre HD", url: "http://xplatinmedia.com:8080/Limitless_discord/jKJvVnMHB6mhwrqBRwhCumNLJDUSAt/79083" }
+    { name: "BEIN SPORTS 1 MAX HD", url: "http://xplatinmedia.com:8080/Limitless_discord/jKJvVnMHB6mhwrqBRwhCumNLJDUSAt/79083" }
     // أكمل القائمة بنفس الطريقة
 ];
 
