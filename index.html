@@ -2,26 +2,25 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Boda Store - TV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boda IPTV Player</title>
     <link rel="stylesheet" href="style.css">
+    <!-- مكتبة HLS لتشغيل القنوات -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
 
-<div class="container">
-    <h2>قنوات Boda Store</h2>
-    <input type="text" id="searchBox" placeholder="ابحث عن قناتك...">
-
-    <div class="video-player">
-        <video id="mainVideo" controls>
-            <source src="" type="video/mp4">
-        </video>
+    <div class="container">
+        <h1>مشغل القنوات</h1>
+        <input type="text" id="searchInput" placeholder="🔍 ابحث عن قناة...">
+        
+        <video id="video" controls autoplay></video>
+        
+        <div id="channelList" class="scroll-list">
+            <!-- سيتم تحميل القنوات هنا -->
+        </div>
     </div>
 
-    <div id="channelList">
-        <!-- القنوات هتتضاف هنا عن طريق الجافاسكربت -->
-    </div>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
