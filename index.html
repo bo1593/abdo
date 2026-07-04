@@ -4,124 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BEIN SPORTS STREAMING</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
-        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f0f0f; color: #fff; display: flex; height: 100vh; overflow: hidden; }
-        #sidebar { width: 350px; background: #1a1a1a; overflow-y: auto; border-left: 2px solid #333; }
-        .channel-btn { width: 100%; padding: 15px; border: none; background: #252525; color: #eee; text-align: right; cursor: pointer; border-bottom: 1px solid #333; font-size: 14px; transition: 0.3s; display: flex; align-items: center; }
-        .channel-btn:hover { background: #e50914; color: white; }
-        #main { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        video { width: 100%; max-width: 960px; height: auto; border-radius: 8px; background: #000; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
-        h1 { margin-bottom: 15px; color: #e50914; font-size: 24px; text-shadow: 2px 2px 4px #000; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f0f0f; color: #fff; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        h1 { color: #e50914; margin-bottom: 20px; }
+        #channel-list { width: 100%; max-width: 600px; }
+        .channel-btn { width: 100%; padding: 15px; margin: 8px 0; border: none; background: #252525; color: #eee; text-align: right; cursor: pointer; border-radius: 8px; font-size: 16px; transition: 0.3s; display: block; text-decoration: none; border: 1px solid #333; }
+        .channel-btn:hover { background: #e50914; color: white; transform: scale(1.02); }
     </style>
 </head>
 <body>
 
-<div id="sidebar">
-    <h3 style="padding: 15px; border-bottom: 1px solid #333; color: #e50914;">قائمة القنوات المتاحة</h3>
+    <h1>قنوات BEIN SPORTS</h1>
     <div id="channel-list"></div>
-</div>
 
-<div id="main">
-    <h1 id="channel-name">اختر قناة للبدء</h1>
-    <video id="video" controls autoplay playsinline></video>
-</div>
+    <script>
+        const channels = [
+            { name: "• ✬● AR | BEIN SPORTS MAX | AR ●✬•", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465986&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 1 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461659&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 1", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461666&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 1 4K", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461667&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 1 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461671&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 2 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461660&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 2", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461665&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 2 4K", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461668&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 2 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461672&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 3 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461661&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 3", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461664&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 3 4K", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461669&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 3 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465793&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 4 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461662&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 4", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461663&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 4 4K", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461670&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 4 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461674&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 5 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466111&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 5 4K", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466110&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 5", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466109&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 5 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466112&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 6 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466115&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 6 4K", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466114&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 6", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466113&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 6 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466116&extension=ts" },
+            { name: "• ✬● AR | BEIN SPORTS MAX BKP | AR ●✬•", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465987&extension=ts" },
+            { name: "AR | BEIN SPORTS MAX 1", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466128&extension=ts" },
+            { name: "AR | BEIN SPORTS MAX 1 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466129&extension=ts" },
+            { name: "AR | BEIN SPORTS MAX 1 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466127&extension=ts" },
+            { name: "AR | BEIN SPORTS MAX 2", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466125&extension=ts" },
+            { name: "AR | BEIN SPORTS MAX 2 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466126&extension=ts" },
+            { name: "AR | BEIN SPORTS MAX 2 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466124&extension=ts" },
+            { name: "AR | BEIN SPORTS MAX 3", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466122&extension=ts" },
+            { name: "AR | BEIN SPORTS MAX 3 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466123&extension=ts" },
+            { name: "AR | BEIN SPORTS MAX 3 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466121&extension=ts" },
+            { name: "AR | BEIN SPORTS MAX 4", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466119&extension=ts" },
+            { name: "AR | BEIN SPORTS MAX 4 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466120&extension=ts" },
+            { name: "AR | BEIN SPORTS MAX 4 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466118&extension=ts" },
+            { name: "• ✬● AR | BEIN SPORTS MAX BKP | AR ●✬•", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465988&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 1 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465985&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 1 FHD HEVC", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465984&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 1 HD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465983&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 1 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465982&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 2 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465981&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 2 FHD HEVC", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465980&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 2 HD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465979&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 2 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465978&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 3 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465977&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 3 FHD HEVC", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465976&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 3 HD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465975&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 3 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465974&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 4 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465973&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 4 FHD HEVC", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465972&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 4 HD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465971&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 4 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465970&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 5 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465969&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 5 FHD HEVC", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465968&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 5 HD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465967&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 5 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465966&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 6 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465965&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 6 FHD HEVC", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465964&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 6 HD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465963&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 6 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465962&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 1 FHD [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465961&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 1 HEVC [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465960&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 1 HD [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465959&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 1 [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465958&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 2 FHD [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465957&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 2 HEVC [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465956&extension=ts" },
+            { name: "AR | beIN SPORTS MAX 2 HD [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465955&extension=ts" }
+        ];
 
-<script>
-    const channels = [
-        { name: "• ✬● AR | BEIN SPORTS MAX | AR ●✬•", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465986&extension=ts" },
-        { name: "beIN SPORTS MAX 1 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461659&extension=ts" },
-        { name: "beIN SPORTS MAX 1", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461666&extension=ts" },
-        { name: "beIN SPORTS MAX 1 4K", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461667&extension=ts" },
-        { name: "beIN SPORTS MAX 1 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461671&extension=ts" },
-        { name: "beIN SPORTS MAX 2 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461660&extension=ts" },
-        { name: "beIN SPORTS MAX 2", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461665&extension=ts" },
-        { name: "beIN SPORTS MAX 2 4K", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461668&extension=ts" },
-        { name: "beIN SPORTS MAX 2 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461672&extension=ts" },
-        { name: "beIN SPORTS MAX 3 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461661&extension=ts" },
-        { name: "beIN SPORTS MAX 3", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461664&extension=ts" },
-        { name: "beIN SPORTS MAX 3 4K", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461669&extension=ts" },
-        { name: "beIN SPORTS MAX 3 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465793&extension=ts" },
-        { name: "beIN SPORTS MAX 4 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461662&extension=ts" },
-        { name: "beIN SPORTS MAX 4", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461663&extension=ts" },
-        { name: "beIN SPORTS MAX 4 4K", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461670&extension=ts" },
-        { name: "beIN SPORTS MAX 4 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461674&extension=ts" },
-        { name: "beIN SPORTS MAX 5 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466111&extension=ts" },
-        { name: "beIN SPORTS MAX 5 4K", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466110&extension=ts" },
-        { name: "beIN SPORTS MAX 5", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466109&extension=ts" },
-        { name: "beIN SPORTS MAX 5 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466112&extension=ts" },
-        { name: "beIN SPORTS MAX 6 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466115&extension=ts" },
-        { name: "beIN SPORTS MAX 6 4K", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466114&extension=ts" },
-        { name: "beIN SPORTS MAX 6", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466113&extension=ts" },
-        { name: "beIN SPORTS MAX 6 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466116&extension=ts" },
-        { name: "• ✬● AR | BEIN SPORTS MAX BKP | AR ●✬•", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465987&extension=ts" },
-        { name: "BEIN SPORTS MAX 1 (2)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466128&extension=ts" },
-        { name: "BEIN SPORTS MAX 1 FHD (2)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466129&extension=ts" },
-        { name: "BEIN SPORTS MAX 1 SD (2)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466127&extension=ts" },
-        { name: "BEIN SPORTS MAX 2 (2)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466125&extension=ts" },
-        { name: "BEIN SPORTS MAX 2 FHD (2)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466126&extension=ts" },
-        { name: "BEIN SPORTS MAX 2 SD (2)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466124&extension=ts" },
-        { name: "BEIN SPORTS MAX 3 (2)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466122&extension=ts" },
-        { name: "BEIN SPORTS MAX 3 FHD (2)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466123&extension=ts" },
-        { name: "BEIN SPORTS MAX 3 SD (2)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466121&extension=ts" },
-        { name: "BEIN SPORTS MAX 4 (2)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466119&extension=ts" },
-        { name: "BEIN SPORTS MAX 4 FHD (2)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466120&extension=ts" },
-        { name: "BEIN SPORTS MAX 4 SD (2)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466118&extension=ts" },
-        { name: "• ✬● AR | BEIN SPORTS MAX BKP 2 | AR ●✬•", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465988&extension=ts" },
-        { name: "beIN SPORTS MAX 1 FHD (HEVC)", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465985&extension=ts" },
-        { name: "beIN SPORTS MAX 1 FHD HEVC", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465984&extension=ts" },
-        { name: "beIN SPORTS MAX 1 HD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465983&extension=ts" },
-        { name: "beIN SPORTS MAX 1 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465982&extension=ts" },
-        { name: "beIN SPORTS MAX 2 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465981&extension=ts" },
-        { name: "beIN SPORTS MAX 2 FHD HEVC", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465980&extension=ts" },
-        { name: "beIN SPORTS MAX 2 HD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465979&extension=ts" },
-        { name: "beIN SPORTS MAX 2 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465978&extension=ts" },
-        { name: "beIN SPORTS MAX 3 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465977&extension=ts" },
-        { name: "beIN SPORTS MAX 3 FHD HEVC", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465976&extension=ts" },
-        { name: "beIN SPORTS MAX 3 HD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465975&extension=ts" },
-        { name: "beIN SPORTS MAX 3 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465974&extension=ts" },
-        { name: "beIN SPORTS MAX 4 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465973&extension=ts" },
-        { name: "beIN SPORTS MAX 4 FHD HEVC", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465972&extension=ts" },
-        { name: "beIN SPORTS MAX 4 HD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465971&extension=ts" },
-        { name: "beIN SPORTS MAX 4 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465970&extension=ts" },
-        { name: "beIN SPORTS MAX 5 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465969&extension=ts" },
-        { name: "beIN SPORTS MAX 5 FHD HEVC", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465968&extension=ts" },
-        { name: "beIN SPORTS MAX 5 HD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465967&extension=ts" },
-        { name: "beIN SPORTS MAX 5 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465966&extension=ts" },
-        { name: "beIN SPORTS MAX 6 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465965&extension=ts" },
-        { name: "beIN SPORTS MAX 6 FHD HEVC", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465964&extension=ts" },
-        { name: "beIN SPORTS MAX 6 HD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465963&extension=ts" },
-        { name: "beIN SPORTS MAX 6 SD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465962&extension=ts" },
-        { name: "beIN SPORTS MAX 1 FHD [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465961&extension=ts" },
-        { name: "beIN SPORTS MAX 1 HEVC [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465960&extension=ts" },
-        { name: "beIN SPORTS MAX 1 HD [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465959&extension=ts" },
-        { name: "beIN SPORTS MAX 1 [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465958&extension=ts" },
-        { name: "beIN SPORTS MAX 2 FHD [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465957&extension=ts" },
-        { name: "beIN SPORTS MAX 2 HEVC [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465956&extension=ts" },
-        { name: "beIN SPORTS MAX 2 HD [F]", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=465955&extension=ts" }
-    ];
+        const listContainer = document.getElementById('channel-list');
 
-    const listContainer = document.getElementById('channel-list');
-    const video = document.getElementById('video');
-    const title = document.getElementById('channel-name');
-
-    channels.forEach(ch => {
-        const btn = document.createElement('button');
-        btn.className = 'channel-btn';
-        btn.innerHTML = `<span>📺</span> &nbsp; ${ch.name}`;
-        btn.onclick = () => {
-            title.innerText = ch.name;
-            if (Hls.isSupported()) {
-                const hls = new Hls();
-                hls.loadSource(ch.url);
-                hls.attachMedia(video);
-            } else {
-                video.src = ch.url;
-            }
-        };
-        listContainer.appendChild(btn);
-    });
-</script>
-
+        channels.forEach(ch => {
+            const btn = document.createElement('a');
+            btn.className = 'channel-btn';
+            btn.innerText = "📺 " + ch.name;
+            btn.href = "#";
+            btn.onclick = (e) => {
+                e.preventDefault();
+                // محاولة فتح التطبيق (TiviMate)
+                window.location.href = "tivimate://view?url=" + encodeURIComponent(ch.url);
+                // التوجيه للمتجر في حال عدم وجود التطبيق
+                setTimeout(() => {
+                    window.location.href = "https://play.google.com/store/apps/details?id=ar.tvplayer.tv";
+                }, 2000);
+            };
+            listContainer.appendChild(btn);
+        });
+    </script>
 </body>
 </html>
+
