@@ -2,25 +2,70 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boda IPTV Player</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- مكتبة HLS لتشغيل القنوات -->
+    <title>BEIN SPORTS PLAYER</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        :root { --dark: #121212; --accent: #e50914; --text: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: var(--text); margin: 0; display: flex; height: 100vh; }
+        
+        /* قائمة القنوات */
+        #sidebar { width: 350px; background: #1a1a1a; overflow-y: auto; border-left: 2px solid #333; }
+        .channel-btn { width: 100%; padding: 15px; border: none; background: #252525; color: white; text-align: right; cursor: pointer; border-bottom: 1px solid #333; transition: 0.3s; }
+        .channel-btn:hover { background: var(--accent); }
+        
+        /* منطقة المشغل */
+        #main { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        video { width: 90%; max-width: 900px; border-radius: 10px; background: black; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        h1 { margin-bottom: 20px; color: var(--accent); text-transform: uppercase; }
+    </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>مشغل القنوات</h1>
-        <input type="text" id="searchInput" placeholder="🔍 ابحث عن قناة...">
-        
-        <video id="video" controls autoplay></video>
-        
-        <div id="channelList" class="scroll-list">
-            <!-- سيتم تحميل القنوات هنا -->
-        </div>
-    </div>
+<div id="sidebar">
+    <h2 style="padding: 20px;">قائمة القنوات</h2>
+    <!-- سيتم ملء القنوات هنا برمجياً -->
+</div>
 
-    <script src="script.js"></script>
+<div id="main">
+    <h1 id="current-title">اختر قناة للبدء</h1>
+    <video id="video" controls autoplay></video>
+</div>
+
+<script>
+    const channels = [
+        { name: "BEIN SPORTS MAX 1 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461659&extension=ts" },
+        { name: "BEIN SPORTS MAX 2 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461660&extension=ts" },
+        { name: "BEIN SPORTS MAX 3 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461661&extension=ts" },
+        { name: "BEIN SPORTS MAX 4 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=461662&extension=ts" },
+        { name: "BEIN SPORTS MAX 5 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466111&extension=ts" },
+        { name: "BEIN SPORTS MAX 6 FHD", url: "http://4kpro2.com/play/live.php?mac=00:1A:79:70:9D:14&stream=466115&extension=ts" }
+        // أضف بقية الروابط هنا بنفس التنسيق
+    ];
+
+    const sidebar = document.getElementById('sidebar');
+    const video = document.getElementById('video');
+    const title = document.getElementById('current-title');
+
+    channels.forEach(ch => {
+        const btn = document.createElement('button');
+        btn.className = 'channel-btn';
+        btn.innerHTML = `📺 ${ch.name}`;
+        btn.onclick = () => {
+            title.innerText = ch.name;
+            playChannel(ch.url);
+        };
+        sidebar.appendChild(btn);
+    });
+
+    function playChannel(url) {
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(url);
+            hls.attachMedia(video);
+        } else {
+            video.src = url;
+        }
+    }
+</script>
 </body>
 </html>
