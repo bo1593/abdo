@@ -2,16 +2,26 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Boda Store - قائمة القنوات</title>
+    <title>Boda Store - TV</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>قائمة قنوات Bein Sports</h1>
-    </header>
-    <div id="channels-container" class="grid">
-        <!-- سيتم إضافة القنوات هنا بواسطة JavaScript -->
+
+<div class="container">
+    <h2>قنوات Boda Store</h2>
+    <input type="text" id="searchBox" placeholder="ابحث عن قناتك...">
+
+    <div class="video-player">
+        <video id="mainVideo" controls>
+            <source src="" type="video/mp4">
+        </video>
     </div>
-    <script src="script.js"></script>
+
+    <div id="channelList">
+        <!-- القنوات هتتضاف هنا عن طريق الجافاسكربت -->
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
